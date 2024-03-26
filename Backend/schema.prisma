@@ -1,0 +1,37 @@
+// schema.prisma
+
+// Define your data model
+model User {
+  id       String @id @default(auto()) @map("_id") // MongoDB requires "_id" field
+  name     String
+  last     String
+  role     String
+  username String @unique
+  password String
+}
+
+model Room {
+  id            String @id @default(auto()) @map("_id") // MongoDB requires "_id" field
+  surface       Float
+  orientation   String
+  nightly_price Float
+  image         String
+}
+
+model Booking {
+  id               String   @id @default(auto()) @map("_id") // MongoDB requires "_id" field @db.ObjectId
+  username         String
+  room_id          String
+  reservation_date DateTime
+}
+
+// Configure your database connection
+datasource db {
+  provider = "mongodb"
+  url      = env("MONGODB_URL")
+}
+
+// Generate Prisma Client
+generator client {
+  provider = "prisma-client-js"
+}
